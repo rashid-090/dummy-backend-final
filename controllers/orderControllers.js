@@ -91,7 +91,7 @@ const orderControllers = () => {
 
     const getOrderStatus = async (req, res) => {
         try {
-            const { referenceId } = req.body
+            const { referenceId } = req.params
             const getStatus = await orderHelpers.getStatus(referenceId)
             if (getStatus) {
                 if (getStatus?.orderStatus == "Completed") {

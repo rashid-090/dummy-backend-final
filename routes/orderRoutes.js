@@ -7,7 +7,7 @@ const orderRoutes = () => {
 
     router.post('/create-payment-session', controllers.createPaymentSession)
     router.post('/place-order', controllers.placeAnOrder)
-    router.post('/get-order-status', controllers.getOrderStatus)
+    router.get('/get-order-status/:referenceId', controllers.getOrderStatus)
     router.patch('/update-payment-status', controllers.updateZiinaPayment)
 
     return router
