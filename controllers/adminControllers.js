@@ -8,10 +8,14 @@ const adminControllers = () => {
         const schema = vine.object({
             countryName:vine.string().minLength(3).maxLength(50),
             currencySymbol:vine.string().fixedLength(3),
-            baseRate:vine.string().minLength(1).maxLength(10),
+            oneWayRate:vine.string().minLength(1).maxLength(10),
+            oneWayUrgentRate:vine.string().minLength(1).maxLength(10),
+            oneWayHotelRate:vine.string().minLength(1).maxLength(10),
+            oneWayUrgentHotelRate:vine.string().minLength(1).maxLength(10),
             roundTripRate:vine.string().minLength(1).maxLength(10),
-            flightWithHotelSurCharge:vine.string().minLength(1).maxLength(10),
-            fastProcessSurCharge:vine.string().minLength(1).maxLength(10)
+            roundTripUrgentRate:vine.string().minLength(1).maxLength(10),
+            roundTripHotelRate:vine.string().minLength(1).maxLength(10),
+            roundTripUrgentHotelRate:vine.string().minLength(1).maxLength(10),
         })
         
         try {
@@ -20,10 +24,14 @@ const adminControllers = () => {
             const {
                 countryName,
                 currencySymbol,
-                baseRate,
+                oneWayRate,
+                oneWayUrgentRate,
+                oneWayHotelRate,
+                oneWayUrgentHotelRate,
                 roundTripRate,
-                flightWithHotelSurCharge,
-                fastProcessSurCharge
+                roundTripUrgentRate,
+                roundTripHotelRate,
+                roundTripUrgentHotelRate
             } = output
             
             const countryNameCapitalise = countryName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
@@ -35,18 +43,26 @@ const adminControllers = () => {
                 return res.status(200).json({ status: false, message: "Country already exists" })
             }
 
-            const baseRateParsed = parseFloat(baseRate)
+            const oneWayRateParsed = parseFloat(oneWayRate)
+            const oneWayUrgentRateParsed = parseFloat(oneWayUrgentRate)
+            const oneWayHotelRateParsed = parseFloat(oneWayHotelRate)
+            const oneWayUrgentHotelRateParsed = parseFloat(oneWayUrgentHotelRate)
             const roundTripRateParsed = parseFloat(roundTripRate)
-            const flightWithHotelSurChargeParsed = parseFloat(flightWithHotelSurCharge)
-            const fastProcessSurChargeParsed = parseFloat(fastProcessSurCharge)
+            const roundTripUrgentRateParsed = parseFloat(roundTripUrgentRate)
+            const roundTripHotelRateParsed = parseFloat(roundTripHotelRate)
+            const roundTripUrgentHotelRateParsed = parseFloat(roundTripUrgentHotelRate)
 
             const saveResponse = await locationHelpers.addPriceByCountry(
                 countryNameCapitalise,
                 currencySymbolUpperCase,
-                baseRateParsed,
+                oneWayRateParsed,
+                oneWayUrgentRateParsed,
+                oneWayHotelRateParsed,
+                oneWayUrgentHotelRateParsed,
                 roundTripRateParsed,
-                flightWithHotelSurChargeParsed,
-                fastProcessSurChargeParsed
+                roundTripUrgentRateParsed,
+                roundTripHotelRateParsed,
+                roundTripUrgentHotelRateParsed,
             )
 
             if (saveResponse) {

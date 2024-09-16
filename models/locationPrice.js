@@ -11,7 +11,19 @@ const locationPriceSchema = new Schema (
             type: String,
             required: true
         },
-        baseRate: {
+        oneWayRate: {
+            type: Number,
+            required: true
+        },
+        oneWayUrgentRate: {
+            type: Number,
+            required: true
+        },
+        oneWayHotelRate: {
+            type: Number,
+            required: true
+        },
+        oneWayUrgentHotelRate: {
             type: Number,
             required: true
         },
@@ -19,11 +31,15 @@ const locationPriceSchema = new Schema (
             type: Number,
             required: true
         },
-        flightWithHotelSurCharge: {
+        roundTripUrgentRate: {
             type: Number,
             required: true
         },
-        fastProcessSurCharge: {
+        roundTripHotelRate: {
+            type: Number,
+            required: true
+        },
+        roundTripUrgentHotelRate: {
             type: Number,
             required: true
         },

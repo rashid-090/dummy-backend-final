@@ -19,7 +19,7 @@ const locationService = {
                 getPrice = await locationHelpers.getPrice("AED")
             }
 
-            if(!getPrice || !getPrice?.baseRate){
+            if(!getPrice || !getPrice?.oneWayRate){
                 return {status:false,message:"Price not found"}
             }
 
@@ -27,21 +27,29 @@ const locationService = {
             const passengerCount = parseInt(ticketRequestData.passengerCount)
 
             if(ticketRequestData.isRoundTrip){
-                total += getPrice.roundTripRate
+                total = getPrice.roundTripRate
+                if(ticketRequestData.serviceType === 'flightwithhotel'){
+                    total = getPrice.roundTripHotelRate
+                }
+                if(ticketRequestData.fastProcess){
+                    total = getPrice.roundTripUrgentRate
+                }
+                if(ticketRequestData.serviceType === 'flightwithhotel' && ticketRequestData.fastProcess){
+                    total = getPrice.roundTripUrgentHotelRate
+                }
             }else{
-                total += getPrice.baseRate
+                total = getPrice.oneWayRate
+                if(ticketRequestData.serviceType === 'flightwithhotel'){
+                    total = getPrice.oneWayHotelRate
+                }
+                if(ticketRequestData.fastProcess){
+                    total = getPrice.oneWayUrgentRate
+                }
+                if(ticketRequestData.serviceType === 'flightwithhotel' && ticketRequestData.fastProcess){
+                    total = getPrice.oneWayUrgentHotelRate
+                }
             }
-            
-            responseData.baseRate = total
 
-            if(ticketRequestData.serviceType == 'flightwithhotel'){
-                total += getPrice.flightWithHotelSurCharge
-                responseData.flightWithHotelSurCharge = getPrice.flightWithHotelSurCharge
-            }
-            if(ticketRequestData.fastProcess){
-                total += getPrice.fastProcessSurCharge
-                responseData.fastProcessSurCharge = getPrice.fastProcessSurCharge
-            }
             const roundedTotal = new Decimal(total).times(passengerCount).toFixed(2)
             responseData.total = Number(roundedTotal)
             

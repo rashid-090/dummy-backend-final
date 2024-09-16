@@ -95,11 +95,6 @@ const orderControllers = () => {
             const getStatus = await orderHelpers.getStatus(referenceId)
             if (getStatus) {
                 if (getStatus?.orderStatus == "Completed") {
-                    // const destination = path.join(__dirname, `./../public/downloads/dummyTickets/${orderId}.pdf`)
-                    // await downloadInvoice(getStatus.invoiceUrl,destination,orderId)
-                    //     .then(() => console.log('PDF downloaded successfully'))
-                    //     .catch(error => console.error('Error downloading PDF:', error));
-                    // return res.download(destination)
                     return res.status(200).json({ status: true, message: getStatus.orderStatus, ticketUrl: getStatus.ticketUrl })
                 }
                 return res.status(200).json({ status: true, message: getStatus.orderStatus, ticketUrl: "" })

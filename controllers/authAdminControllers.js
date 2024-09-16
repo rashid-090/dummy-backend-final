@@ -71,7 +71,6 @@ const authAdminControllers = () => {
 
     const signOut = async (req, res) => {
         const { id } = req.payload
-        console.log('req.payload',req.payload);
         const deleteToken = await tokenHelpers.deleteToken(id)
         if (deleteToken) {
             return res.status(200).json({ status: true, message: "Signout Successful" })
